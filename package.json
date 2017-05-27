@@ -1,0 +1,31 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.mapboxdemo",
+    "tns-android": {
+      "version": "2.5.0"
+    },
+    "tns-ios": {
+      "version": "2.5.0"
+    }
+  },
+  "dependencies": {
+    "moment": "^2.18.1",
+    "nativescript-feedback": "^1.0.5",
+    "nativescript-mapbox": "^2.6.0",
+    "tns-core-modules": "^2.5.1"
+  },
+  "scripts": {
+    "iphone": "tns emulate ios --device 'iPhone SE'",
+    "ipad": "tns emulate ios --device 'iPad Air 2'",
+    "ios.device": "tns run ios",
+    "android": "tns run android"
+  },
+  "devDependencies": {
+    "babel-traverse": "6.10.4",
+    "babel-types": "6.11.1",
+    "babylon": "6.8.4",
+    "lazy": "1.0.11",
+    "nativescript-dev-typescript": "^0.3.0",
+    "typescript": "^2.1.0"
+  }
+}

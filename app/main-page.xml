@@ -1,0 +1,100 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" xmlns:map="nativescript-mapbox" actionBarHidden="true" loaded="pageLoaded">
+  <!--<TabView>
+    <TabView.items>
+      <TabViewItem title="About">
+        <TabViewItem.view>
+          <ScrollView>
+            <StackLayout cssClass="tab-content">
+              <Image margin="10" src="~/res/telerik-logo.png" />
+              <Label text="Mapbox plugin demo" cssClass="title"/>
+              <Label text="Awesome platform independent OpenGL powered maps by Mapbox. Make sure you provide your own (free) 'accessToken' in main-view-model.js or unexpected things will happen." textWrap="true"/>
+            </StackLayout>
+          </ScrollView>
+        </TabViewItem.view>
+      </TabViewItem>
+      <TabViewItem title="By XML">
+        <TabViewItem.view>-->
+          <GridLayout columns="*, *" rows="auto, auto, auto, auto, auto, auto, auto, auto" horizontalAlignment="stretch" cssClass="tab-content">
+            <TextField row="0" colSpan="2" autocorrect="false" cssClass="field" hint="Exemple: Paris,fr" text="{{ city }}" id="city" />
+            <Button row="1" colSpan="2" text="&#xf0c2; RECHERCHER!" tap="{{ onTap }}" class="btn"/>
+            
+            <Label row="2" col="0" text="{{ temperature }}" class="h1 text-center" textWrap="true"/>
+            <Label row="2" col="1" text="{{ pressure }}" class="h2 text-center" textWrap="true"/>
+            
+            <Label row="3" col="0" text="{{ description }}" class="h2 text-center" textWrap="true"/>
+            <Label row="3" col="1" text="{{ humidity }}" class="h2 text-center" textWrap="true"/>
+
+            <Label row="4" col="0" text="{{ sunrise }}" class="h2 text-center" textWrap="true"/>
+            <Label row="4" col="1" text="{{ temp_min }}" class="h2 text-center" textWrap="true"/>
+            
+            <Label row="5" col="0" text="{{ sunset }}" class="h2 text-center" textWrap="true"/>
+            <Label row="5" col="1" text="{{ temp_max }}" class="h2 text-center" textWrap="true"/>
+
+            <Button row="6" col="0" text="Zoom IN/OUT" tap="{{ onZoom }}" class="zoom"/>
+            <Button row="6" col="1" text="Navigate Markers" tap="{{ onNavigate }}" class="zoom"/>
+
+            <Button row="7" col="0" text="CREER MARKER" tap="{{ onSave }}" class="blue"/>
+            <Button row="7" col="1" text="SUPPRIMER" tap="{{ onDelete }}" class="blue"/>
+
+
+            <!--<ContentView id="mapcontainer" row="7" colSpan="2">
+              <map:Mapbox
+                  delay="2000"
+                  latitude="48.86238627985574"
+                  longitude="2.3501099559493923"
+                  zoomLevel="14"
+                  mapStyle="outdoors"
+                  mapReady="onMapReady"
+                  hideLogo="true"
+                  hideAttribution="true"
+                  accessToken="sk.eyJ1IjoiZWRkeXZlcmJydWdnZW4iLCJhIjoia1JpRW82NCJ9.OgnvpsKzB3GJhzyofQNUBw">
+              </map:Mapbox>
+            </ContentView>-->
+            
+          </GridLayout>
+        <!--</TabViewItem.view>
+      </TabViewItem>
+      <TabViewItem title="By Code">
+        <TabViewItem.view>
+          <GridLayout columns="*, *, *, *" rows="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto" horizontalAlignment="stretch" cssClass="tab-content">
+
+            <Button row="0" col="0" text="show" tap="{{ doShow }}" cssClass="button" />
+            <Button row="0" col="1"  text="hide" tap="{{ doHide }}" cssClass="button" />
+            <Button row="0" col="2"  text="unhide" tap="{{ doUnhide }}" cssClass="button" />
+            <Button row="0" col="3"  text="destroy" tap="{{ doDestroy }}" cssClass="button" />
+
+            <Button row="1" col="0" text="center?" tap="{{ doGetCenter }}" cssClass="button" />
+            <Button row="1" col="1" text="center!" tap="{{ doSetCenter }}" cssClass="button" />
+            <Button row="1" col="2" text="zoom?" tap="{{ doGetZoomLevel }}" cssClass="button" />
+            <Button row="1" col="3" text="zoom!" tap="{{ doSetZoomLevel }}" cssClass="button" />
+
+            <Button row="2" colSpan="2" text="get viewport" tap="{{ doGetViewport }}" cssClass="button" />
+            <Button row="2" col="2" colSpan="2"  text="set viewport" tap="{{ doSetViewport }}" cssClass="button" />
+
+            <Button row="3" colSpan="2" text="add 4 markers" tap="{{ doAddMarkers }}" cssClass="button" />
+            <Button row="3" col="2" colSpan="2"  text="animate camera" tap="{{ doAnimateCamera }}" cssClass="button" />
+
+            <Button row="4" colSpan="2" text="remove 2 markers" tap="{{ doRemove2Markers }}" cssClass="button" />
+            <Button row="4" col="2" colSpan="2" text="remove all markers" tap="{{ doRemoveAllMarkers }}" cssClass="button" />
+
+            <Android>
+              <Button row="5" colSpan="2" text="Set tilt" tap="{{ doSetTilt }}" cssClass="button" />
+              <Button row="5" col="2" colSpan="2" text="Add Polygon" tap="{{ doAddPolygon }}" cssClass="button" />
+              <Button row="6" colSpan="4" text="Add and cluster GeoJSON" tap="{{ doAddAndClusterGeoJSON }}" cssClass="button" />
+            </Android>
+
+            <Button row="7" colSpan="2" text="DL Amsterdam" tap="{{ doDownloadAmsterdam }}" cssClass="button button-offline" />
+            <Button row="7" col="2" colSpan="2"  text="DL current view" tap="{{ doDownloadCurrentViewportAsOfflineRegion }}" cssClass="button button-offline" />
+
+            <Button row="8" colSpan="2" text="Del Amsterdam" tap="{{ doDeleteOfflineRegion }}" cssClass="button button-offline" />
+            <Button row="8" col="2" colSpan="2"  text="List downloaded" tap="{{ doListOfflineRegions }}" cssClass="button button-offline" />
+
+            <Button row="9" colSpan="2"  text="location perm?" tap="{{ doCheckHasFineLocationPermission }}" cssClass="button button-permissions" />
+            <Button row="9" col="2" colSpan="2"  text="ask permission" tap="{{ doRequestFineLocationPermission }}" cssClass="button button-permissions" />
+
+          </GridLayout>
+        </TabViewItem.view>
+      </TabViewItem>
+    </TabView.items>
+  </TabView>-->
+</Page>

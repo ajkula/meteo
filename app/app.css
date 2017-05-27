@@ -1,0 +1,99 @@
+﻿@import 'nativescript-theme-core/css/core.dark.css';
+* {
+    /*font-family: "FontAwesome";*/
+}
+
+.h1 {
+    font-family: 'FontAwesome';
+}
+
+page {
+    background-color: #333333;
+    border: 2px dashed #4d1300;
+    /*font-family: FontAwesome;*/
+}
+
+.tab-content {
+    color: #808080;
+    padding: 5;
+}
+
+.title {
+    font-size: 24;
+    margin: 0 0 10 0;
+    color: goldenrod;
+    font-weight: bold;
+}
+
+label {
+    /*color: dodgerblue;*/
+    color: orange;
+    font-size: 18;
+    font-weight: bold;
+}
+
+.field {
+    color: orange;
+    font-weight: bold;
+    border-radius: 10 10 10 10;
+}
+
+Image {
+    border-radius: 5;
+}
+
+TextField {
+    color: white;
+    font-size: 22;
+    text-align: center;
+    /*background-color: #734d26;*/
+    border-radius: 10 10 10 10;
+}
+
+button {
+    background-color: orange;
+    color: white;
+    padding: 2 0;
+    margin: 3 6;
+    font-size: 18;
+    border-radius: 3;
+    height: 30;
+    font-family: 'FontAwesome';
+}
+
+.zoom {
+    background-color: #009900;
+    font-weight: bold;
+    color: white;
+    padding: 2 0;
+    margin: 3 6;
+    font-size: 13;
+    border-radius: 3;
+    height: 30;
+}
+
+.blue {
+    background-color: dodgerblue;
+    font-weight: bold;
+    color: white;
+    padding: 2 0;
+    margin: 3 6;
+    font-size: 13;
+    border-radius: 3;
+    height: 30;
+    font-family: 'FontAwesome';
+}
+
+.btn {
+    color: #FFFFFF;
+    font-weight: bold;
+    font-family: 'FontAwesome';
+}
+
+.button-offline {
+    background-color: #A0A0A0;
+}
+
+.button-permissions {
+    background-color: #808080;
+}

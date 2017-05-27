@@ -1,0 +1,10 @@
+.idea
+*/bin
+*/obj
+*.user-settings.xml
+/node_modules
+/platforms
+/lib
+/bin
+/hooks
+/.vscode
