@@ -26,6 +26,25 @@ var MapModel = (function(_super) {
     const marron = '#734d26';
     var nav = 1;
 
+    // dialogs.alert({
+    //             title: "Download error",
+    //             message: error,
+    //             okButtonText: "Got it"
+    //         });
+
+    function zoomTarget(data) {
+        switch (data) {   
+            case 3:
+                return 10;          
+            case 10:
+                return 16;          
+            case 16:
+                return 3;
+            default:
+                return 3;
+        }
+    }
+
     function errordialog(error) {
         feedback.show({
             title: "Il y a eu une erreur :",
@@ -56,7 +75,7 @@ var MapModel = (function(_super) {
             messageColor: new color.Color('white'),
             duration: 300,
             onTap: () => {
-                console.dump(feedback);
+                // console.dump(feedback);
                 feedback.hide();
             }
         }); // feedback
@@ -73,7 +92,7 @@ var MapModel = (function(_super) {
             messageColor: new color.Color('white'),
             duration: 300,
             onTap: () => {
-                console.dump(feedback);
+                // console.dump(feedback);
                 feedback.hide();
             }
         }); // feedback
@@ -114,7 +133,7 @@ var MapModel = (function(_super) {
             })
             .then(function(data) {
                 //   MapModel.doSetCenter(data);
-                console.dump(data);
+                // console.dump(data);
                 that.set("temperature", Math.round(data.main.temp - 273.15) + " °C");
                 that.set("pressure", "Pression: " + data.main.pressure);
                 that.set("humidity", "Taux d'humidité: " + data.main.humidity);
@@ -134,8 +153,8 @@ var MapModel = (function(_super) {
             if (nav >= markersArray.length) {
                 nav = 0
             }
-            console.dump(nav)
-            console.dump(markersArray[nav].lat)
+            // console.dump(nav)
+            // console.dump(markersArray[nav].lat)
             mapbox.setCenter({
                     lat: markersArray[nav].lat,
                     lng: markersArray[nav].lng, // mandatory
@@ -157,8 +176,8 @@ var MapModel = (function(_super) {
     function transformMarkers() {
         var newArray = [];
         if (markersArray.length >= 1) {
-            console.dump("markersArray.length", markersArray.length)
-                // console.dump(markersArray[0])
+            // console.dump("markersArray.length", markersArray.length)
+            // console.dump(markersArray[0])
             let id = 0;
             markersArray.forEach(
                 function(elem) {
@@ -172,22 +191,22 @@ var MapModel = (function(_super) {
                             //   MapModel.doSetCenter(data);
                             id = newArray.length + 1
                             elem = {
-                                id: id,
-                                lat: elem.lat,
-                                lng: elem.lng,
-                                title: data.name, // no popup unless set
-                                subtitle: 'Température :' + Math.round(data.main.temp - 273.15) + " °C",
-                                icon: 'http://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + data.weather[0].icon + '.png',
-                                onTap: onTap,
-                                onCalloutTap: onCalloutTap
-                            }
-                            console.dump(elem)
+                                    id: id,
+                                    lat: elem.lat,
+                                    lng: elem.lng,
+                                    title: data.name, // no popup unless set
+                                    subtitle: 'Température :' + Math.round(data.main.temp - 273.15) + " °C",
+                                    icon: 'http://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + data.weather[0].icon + '.png',
+                                    onTap: onTap,
+                                    onCalloutTap: onCalloutTap
+                                }
+                                // console.dump(elem)
                             newArray.push(elem);
                         });
 
                 }); // forEach
 
-            console.dump(newArray)
+            // console.dump(newArray)
             return newArray;
         }
 
@@ -217,10 +236,10 @@ var MapModel = (function(_super) {
             };
             markersArray.push(newElem)
             appSettings.setString("markersArray", JSON.stringify(markersArray));
-            console.dump(markersArray.length)
+            // console.dump(markersArray.length)
 
             markersArray = transformMarkers();
-            console.dump(typeof markersArray)
+            // console.dump(typeof markersArray)
             mapbox.addMarkers(markersArray).then(
 
                 function(result) {
@@ -239,7 +258,7 @@ var MapModel = (function(_super) {
         this.set("temperature", "Nom de la ville");
         this.set("pressure", "");
         this.set("humidity", "");
-        this.set("zoomed", true);
+        this.set("zoomed", 10);
         this.set("temp_min", "");
         this.set("temp_max", "");
         this.set("sunrise", "");
@@ -249,7 +268,7 @@ var MapModel = (function(_super) {
         var that = this;
         let array = transformMarkers()
         if (array) { this.set("test", true) } else this.set("test", false)
-        console.dump(transformMarkers());
+            // console.dump(transformMarkers());
 
         // console.dump(markersArray)
         mapbox.show({
@@ -278,9 +297,8 @@ var MapModel = (function(_super) {
         }).then(
             function(result) {
                 // listener()
-
-
                 mapbox.setOnMapClickListener(function(point) {
+                    // console.dump(point)
                     listener(point);
                     that.set("point", point);
                     fetch("http://api.openweathermap.org/data/2.5/weather?lat=" + point.lat + "&lon=" + point.lng + "&appid=7431d386218c6bc0943c880b3c81b868")
@@ -290,7 +308,7 @@ var MapModel = (function(_super) {
                         })
                         .then(function(data) {
                             //   MapModel.doSetCenter(data);
-                            console.dump(data);
+                            // console.dump(data);
                             that.set("temperature", Math.round(data.main.temp - 273.15) + " °C");
                             that.set("pressure", "Pression: " + data.main.pressure);
                             that.set("humidity", "Taux d'humidité: " + data.main.humidity);
@@ -319,21 +337,14 @@ var MapModel = (function(_super) {
 
     MapModel.prototype.onZoom = function(args) {
         // console.dump(mapbox);
-        if (this.zoomed == true) {
-            mapbox.setZoomLevel({
-                level: 14,
-                animated: true
-            });
-            this.set("zoomed", false);
-            console.dump(this.zoomed);
-        } else {
-            mapbox.setZoomLevel({
-                level: 3,
-                animated: true
-            });
-            this.set("zoomed", true);
-            console.dump(this.zoomed);
-        }
+
+        let zlvl = zoomTarget(this.zoomed);
+        mapbox.setZoomLevel({
+            level: zlvl,
+            animated: true
+        });
+        this.set("zoomed", zlvl);
+        // console.dump(zlvl);
     }
 
     function handleErrors(response) {
@@ -361,8 +372,8 @@ var MapModel = (function(_super) {
                 return response.json();
             })
             .then(function(data) {
-                console.dump(data.weather[0].description)
-                    // console.dump(mapbox._markers[0]);
+                // console.dump(data)
+                // console.dump(mapbox._markers[0]);
                 that.set("temperature", Math.round(data.main.temp - 273.15) + " °C");
                 that.set("pressure", "Pression: " + data.main.pressure);
                 that.set("humidity", "Taux d'humidité: " + data.main.humidity);
@@ -371,6 +382,17 @@ var MapModel = (function(_super) {
                 that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                 that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
                 that.set("description", data.weather[0].description);
+
+                that.set("point", {
+                    lat: data.coord.lat,
+                    lng: data.coord.lon
+                });
+
+                mapbox.setCenter({
+                    lat: data.coord.lat,
+                    lng: data.coord.lon, // mandatory
+                    animated: true, // default true
+                });
             });
     };
 
