@@ -122,7 +122,7 @@ var MapModel = (function(_super) {
                 that.set("temp_max", "Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C");
                 that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                 that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                that.set("description", "Climat: " + data.weather[0].description);
+                that.set("description", data.weather[0].description);
                 that.set("city", data.name);
             });
     };
@@ -298,7 +298,7 @@ var MapModel = (function(_super) {
                             that.set("temp_max", "Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C");
                             that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                             that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                            that.set("description", "Temp: " + data.weather[0].description);
+                            that.set("description", data.weather[0].description);
                             that.set("city", data.name);
                         });
 
@@ -370,7 +370,7 @@ var MapModel = (function(_super) {
                 that.set("temp_max", ("Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C"));
                 that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                 that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                that.set("description", ("Temp: " + data.weather[0].description));
+                that.set("description", data.weather[0].description);
             });
     };
 
