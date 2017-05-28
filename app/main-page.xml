@@ -34,7 +34,7 @@
             <Button row="6" col="1" text="Navigate Markers" tap="{{ onNavigate }}" class="zoom"/>
 
             <Button row="7" col="0" text="CREER MARKER" tap="{{ onSave }}" class="blue"/>
-            <Button row="7" col="1" text="SUPPRIMER" tap="{{ onDelete }}" class="blue"/>
+            <Button row="7" col="1" text="THEMES SWITCH" tap="{{ onThemeSwitch }}" class="blue"/>
 
 
             <!--<ContentView id="mapcontainer" row="7" colSpan="2">

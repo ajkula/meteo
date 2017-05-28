@@ -5,6 +5,7 @@ var color = require('color');
 
 function pageLoaded(args) {
     vmModule.mainViewModel.doShow();
+    // vmModule.mainViewModel.hasListeners("theme");
     var page = args.object;
     page.bindingContext = vmModule.mainViewModel;
     var colorHint = new color.Color("white");
@@ -15,8 +16,13 @@ function pageLoaded(args) {
         var placeholder = textField.ios.valueForKey("placeholderLabel");
         placeholder.textColor = colorHint.ios;
     }
+
+    // console.dump(page.bindingContext.hasListeners);
 }
+
 exports.pageLoaded = pageLoaded;
+
+// function cb() { console.log(page.bindingContext._getEventList()) }
 
 // var mapbox = require("nativescript-mapbox");
 

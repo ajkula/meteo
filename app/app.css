@@ -1,8 +1,4 @@
 ﻿@import 'nativescript-theme-core/css/core.dark.css';
-* {
-    /*font-family: "FontAwesome";*/
-}
-
 .h1 {
     font-family: 'FontAwesome';
 }
@@ -11,11 +7,6 @@ page {
     background-color: #333333;
     border: 2px dashed #4d1300;
     /*font-family: FontAwesome;*/
-}
-
-.tab-content {
-    color: #808080;
-    padding: 5;
 }
 
 .title {
@@ -43,7 +34,6 @@ Image {
 }
 
 TextField {
-    color: white;
     font-size: 22;
     text-align: center;
     /*background-color: #734d26;*/
