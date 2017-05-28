@@ -29,20 +29,41 @@ var MapModel = (function(_super) {
     const marron = '#734d26';
     var nav = 1;
 
+    function startTheme() {
+        if (appSettings.getString("theme") !== undefined) {
+            if (appSettings.getString("theme") === "emerald") {
+                // this.set("theme", "EMERALD");
+                application.addCss("page {background-color: #ece8df;}");
+                appSettings.setString("theme", mapbox.MapStyle.EMERALD)
+                return (appSettings.getString("theme"))
+            } else {
+                // this.set("theme", "DARK");
+                application.addCss("page {background-color: #333333;}");
+                appSettings.setString("theme", mapbox.MapStyle.DARK)
+                return (appSettings.getString("theme"))
+            }
+        }
+    }
+
+
+    console.dump(appSettings.getString("theme"))
+
     MapModel.prototype.onThemeSwitch = function() {
         // console.dump(this.theme)
         if (this.theme === "DARK") {
-            mapbox.setMapStyle(mapbox.MapStyle.OUTDOORS),
-                this.set("theme", "OUTDOORS");
+            mapbox.setMapStyle(mapbox.MapStyle.EMERALD),
+                this.set("theme", "EMERALD");
             application.addCss("page {background-color: #ece8df;}");
-            // this._emit("theme", this.theme)
-            // application.loadCss()
+            appSettings.setString("theme", mapbox.MapStyle.EMERALD)
+                // this._emit("theme", this.theme)
+                // application.loadCss()
         } else {
             mapbox.setMapStyle(mapbox.MapStyle.DARK),
                 this.set("theme", "DARK");
             application.addCss("page {background-color: #333333;}");
-            // this._emit("theme", this.theme)
-            // console.dump(themes.dark)
+            appSettings.setString("theme", mapbox.MapStyle.DARK)
+                // this._emit("theme", this.theme)
+                // console.dump(themes.dark)
         }
     }
 
@@ -269,7 +290,7 @@ var MapModel = (function(_super) {
         // console.dump(markersArray)
         mapbox.show({
             accessToken: accessToken,
-            style: mapbox.MapStyle.DARK,
+            style: startTheme(),
             margins: {
                 left: 0,
                 right: 0,
@@ -554,7 +575,7 @@ var MapModel = (function(_super) {
             // required for Android in case no map has been shown yet
             accessToken: accessToken,
             name: "Amsterdam",
-            style: mapbox.MapStyle.OUTDOORS,
+            style: mapbox.MapStyle.EMERALD,
             minZoom: 9,
             maxZoom: 11,
             bounds: {
@@ -590,7 +611,7 @@ var MapModel = (function(_super) {
         mapbox.getViewport().then(function(viewport) {
             mapbox.downloadOfflineRegion({
                 name: "LastViewport",
-                style: mapbox.MapStyle.OUTDOORS,
+                style: mapbox.MapStyle.EMERALD,
                 minZoom: viewport.zoomLevel,
                 maxZoom: viewport.zoomLevel + 2,
                 bounds: viewport.bounds,
