@@ -42,6 +42,11 @@ var MapModel = (function(_super) {
                 appSettings.setString("theme", mapbox.MapStyle.DARK)
                 return (appSettings.getString("theme"))
             }
+        } else {
+            // this.set("theme", "DARK");
+            application.addCss("page {background-color: #333333;}");
+            appSettings.setString("theme", mapbox.MapStyle.DARK)
+            return (appSettings.getString("theme"))
         }
     }
 
