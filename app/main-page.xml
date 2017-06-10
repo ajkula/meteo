@@ -14,11 +14,14 @@
       </TabViewItem>
       <TabViewItem title="By XML">
         <TabViewItem.view>-->
-          <GridLayout columns="*, *" rows="auto, auto, auto, auto, auto, auto, auto, auto" horizontalAlignment="stretch" cssClass="tab-content">
-            <TextField row="0" colSpan="2" autocorrect="false" cssClass="field" hint="Exemple: Paris,fr" text="{{ city }}" id="city" />
-            <Button row="1" colSpan="2" text="&#xf0c2; RECHERCHER!" tap="{{ onTap }}" class="btn"/>
+          <GridLayout columns="*, *" rows="auto, auto, auto, auto, auto, auto, auto" horizontalAlignment="stretch" >
             
-            <Label row="2" col="0" text="{{ temperature }}" class="h1 text-center" textWrap="true"/>
+            <GridLayout row="0" colSpan="2" columns="4*, *" rows="auto" horizontalAlignment="stretch" >
+            <TextField row="0" autocorrect="false" cssClass="field" hint="Exemple: Paris,fr" text="{{ city }}" id="city" />
+            <Button col="3" text="&#xf002;" tap="{{ onTap }}" class="btn"/>
+            </GridLayout>
+            
+            <Label row="2" col="0" text="{{ temperature }}" class="h2 text-center" textWrap="true"/>
             <Label row="2" col="1" text="{{ pressure }}" class="h2 text-center" textWrap="true"/>
             
             <Label row="3" col="0" text="{{ description }}" class="h2 text-center" textWrap="true"/>
@@ -30,12 +33,14 @@
             <Label row="5" col="0" text="{{ sunset }}" class="h2 text-center" textWrap="true"/>
             <Label row="5" col="1" text="{{ temp_max }}" class="h2 text-center" textWrap="true"/>
 
-            <Button row="6" col="0" text="Zoom IN/OUT" tap="{{ onZoom }}" class="zoom"/>
-            <Button row="6" col="1" text="Navigate Markers" tap="{{ onNavigate }}" class="zoom"/>
+            <GridLayout row="7" colSpan="2" columns="1*, 1*, 1*, 1*, 1*" rows="auto"  >
+            <Button row="0" col="0" text="&#xf08d;" tap="{{ onSave }}" class="zoom"/>
+            <Button row="0" col="1" text="&#xf0fb;" tap="{{ onNavigate }}" class="zoom"/>  
+            <Button row="0" col="2" text="&#xf041;" tap="{{ onLocalize }}" class="red"/>  
 
-            <Button row="7" col="0" text="CREER MARKER" tap="{{ onSave }}" class="blue"/>
-            <Button row="7" col="1" text="THEMES SWITCH" tap="{{ onThemeSwitch }}" class="blue"/>
-
+            <Button row="0" col="3" text="&#xf00e;" tap="{{ onZoom }}" class="blue"/>
+            <Button row="0" col="4" text="&#xf0ac;" tap="{{ onThemeSwitch }}" class="blue"/>
+            </GridLayout>
 
             <!--<ContentView id="mapcontainer" row="7" colSpan="2">
               <map:Mapbox

@@ -29,43 +29,46 @@ var MapModel = (function(_super) {
     const marron = '#734d26';
     var nav = 1;
 
+
     function startTheme() {
+        console.log("passe!!")
+
         if (appSettings.getString("theme") !== undefined) {
             if (appSettings.getString("theme") === "emerald") {
                 // this.set("theme", "EMERALD");
-                application.addCss("page {background-color: #ece8df;}");
-                appSettings.setString("theme", mapbox.MapStyle.EMERALD)
-                return (appSettings.getString("theme"))
+                // application.addCss("page {background-color: #ece8df;}");
+                // appSettings.setString("theme", mapbox.MapStyle.EMERALD)
+
+                return appSettings.getString("theme");
             } else {
                 // this.set("theme", "DARK");
-                application.addCss("page {background-color: #333333;}");
-                appSettings.setString("theme", mapbox.MapStyle.DARK)
-                return (appSettings.getString("theme"))
+                // application.addCss("page {background-color: #333333;}");
+                // appSettings.setString("theme", mapbox.MapStyle.DARK)
+                return appSettings.getString("theme");
             }
+
         } else {
             // this.set("theme", "DARK");
-            application.addCss("page {background-color: #333333;}");
+            // application.addCss("page {background-color: #333333;}");
             appSettings.setString("theme", mapbox.MapStyle.DARK)
-            return (appSettings.getString("theme"))
+            return appSettings.getString("theme");
         }
     }
-
-
-    console.dump(appSettings.getString("theme"))
+    // console.dump(appSettings.getString("theme"))
 
     MapModel.prototype.onThemeSwitch = function() {
         // console.dump(this.theme)
         if (this.theme === "DARK") {
             mapbox.setMapStyle(mapbox.MapStyle.EMERALD),
                 this.set("theme", "EMERALD");
-            application.addCss("page {background-color: #ece8df;}");
+            // application.addCss("page {background-color: #ece8df;}");
             appSettings.setString("theme", mapbox.MapStyle.EMERALD)
                 // this._emit("theme", this.theme)
                 // application.loadCss()
         } else {
             mapbox.setMapStyle(mapbox.MapStyle.DARK),
                 this.set("theme", "DARK");
-            application.addCss("page {background-color: #333333;}");
+            // application.addCss("page {background-color: #333333;}");
             appSettings.setString("theme", mapbox.MapStyle.DARK)
                 // this._emit("theme", this.theme)
                 // console.dump(themes.dark)
@@ -80,18 +83,16 @@ var MapModel = (function(_super) {
 
     function zoomTarget(data) {
         switch (data) {   
-            case 3:
-                return 7;
-            case 7:
+            case 5:
                 return 10;          
             case 10:
                 return 14;          
             case 14:
                 return 17;
             case 17:
-                return 3;
+                return 5;
             default:
-                return 3;
+                return 5;
         }
     }
 
@@ -156,11 +157,7 @@ var MapModel = (function(_super) {
     };
 
     if (appSettings.hasKey("markersArray") === true) {
-        var markersArray = appSettings.getString("markersArray", [{
-            id: 1,
-            lat: 48.25,
-            lng: 2.45
-        }]);
+        var markersArray = appSettings.getString("markersArray");
         test = true;
     } else {
         markersArray = [];
@@ -299,7 +296,7 @@ var MapModel = (function(_super) {
             margins: {
                 left: 0,
                 right: 0,
-                top: isIOS ? 400 : 265,
+                top: isIOS ? 400 : 220,
                 bottom: isIOS ? 50 : 1
             },
             center: {
