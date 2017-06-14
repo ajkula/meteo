@@ -28,6 +28,7 @@ label {
     color: orange;
     font-weight: bold;
     border-radius: 10 10 10 10;
+    background-color: #404040;
 }
 
 Image {
@@ -45,7 +46,7 @@ button {
     background-color: orange;
     color: white;
     padding: 2 0;
-    margin: 3 6;
+    margin: 3 3;
     font-size: 18;
     border-radius: 3;
     height: 30;
@@ -57,7 +58,7 @@ button {
     font-weight: bold;
     color: white;
     padding: 2 0;
-    margin: 3 6;
+    margin: 3 3;
     font-size: 32;
     border-radius: 50;
     height: 55;
@@ -69,7 +70,7 @@ button {
     font-weight: bold;
     color: white;
     padding: 2 0;
-    margin: 3 6;
+    margin: 3 3;
     font-size: 32;
     border-radius: 50;
     height: 55;
@@ -81,7 +82,7 @@ button {
     font-weight: bold;
     color: white;
     padding: 2 0;
-    margin: 3 6;
+    margin: 3 3;
     font-size: 32;
     border-radius: 50;
     height: 55;

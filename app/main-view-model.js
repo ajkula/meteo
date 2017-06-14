@@ -13,9 +13,12 @@ var application = require("application");
 var themes = require('./themes').themes;
 // var fileName = application.getCssFileName();
 // console.dump(application);
+var geolocation = require("nativescript-geolocation");
 
 var MapModel = (function(_super) {
     __extends(MapModel, _super);
+
+
 
     function MapModel() {
         _super.call(this);
@@ -31,7 +34,7 @@ var MapModel = (function(_super) {
 
 
     function startTheme() {
-        console.log("passe!!")
+        console.log("startTheme!!")
 
         if (appSettings.getString("theme") !== undefined) {
             if (appSettings.getString("theme") === "emerald") {
@@ -83,22 +86,20 @@ var MapModel = (function(_super) {
 
     function zoomTarget(data) {
         switch (data) {   
-            case 5:
-                return 10;          
-            case 10:
-                return 14;          
-            case 14:
-                return 17;
-            case 17:
-                return 5;
+            case 3:
+                return 8;          
+            case 8:
+                return 13;          
+            case 13:
+                return 3;
             default:
-                return 5;
+                return 3;
         }
     }
 
     function errordialog(error) {
         feedback.show({
-            title: "Il y a eu une erreur :",
+            title: "error / erreur :",
             icon: "erroricon",
             backgroundColor: new color.Color('red'),
             message: error,
@@ -119,11 +120,11 @@ var MapModel = (function(_super) {
             title: "POSITION CLIQUEE!",
             icon: "successicon",
             backgroundColor: new color.Color('#009900'),
-            message: [stringer] + " REUSSI !",
+            message: [stringer] + " OK !",
             //type: feedback.success(),
             titleColor: new color.Color('white'),
             messageColor: new color.Color('white'),
-            duration: 300,
+            duration: 600,
             onTap: () => {
                 // console.dump(feedback);
                 feedback.hide();
@@ -140,7 +141,7 @@ var MapModel = (function(_super) {
             //type: feedback.success(),
             titleColor: new color.Color('white'),
             messageColor: new color.Color('white'),
-            duration: 300,
+            duration: 500,
             onTap: () => {
                 // console.dump(feedback);
                 feedback.hide();
@@ -157,7 +158,7 @@ var MapModel = (function(_super) {
     };
 
     if (appSettings.hasKey("markersArray") === true) {
-        var markersArray = appSettings.getString("markersArray");
+        markersArray = appSettings.getString("markersArray");
         test = true;
     } else {
         markersArray = [];
@@ -167,32 +168,8 @@ var MapModel = (function(_super) {
         markersArray = JSON.parse(markersArray);
     }
 
-    // MapModel.prototype.load = function(point) {
-    //     var that = this;
-
-    //     MapModel.set("point", point);
-    //     var coordonnees = (that.point).toString();
-    //     return fetch("http://api.openweathermap.org/data/2.5/weather?lat=" + point.lat + "&lon=" + point.lng + "&appid=7431d386218c6bc0943c880b3c81b868")
-    //         .then(handleErrors)
-    //         .then(function(response) {
-    //             return response.json();
-    //         })
-    //         .then(function(data) {
-    //             //   MapModel.doSetCenter(data);
-    //             // console.dump(data);
-    //             that.set("temperature", Math.round(data.main.temp - 273.15) + " °C");
-    //             that.set("pressure", "Pression: " + data.main.pressure);
-    //             that.set("humidity", "Taux d'humidité: " + data.main.humidity);
-    //             that.set("temp_min", "Minimale: " + Math.round(data.main.temp_min - 273.15) + " °C");
-    //             that.set("temp_max", "Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C");
-    //             that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
-    //             that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-    //             that.set("description", data.weather[0].description);
-    //             that.set("city", data.name);
-    //         });
-    // };
-
     function transformMarkers() {
+        console.log("transformMarkers!!")
         var newArray = [];
         if (markersArray.length >= 1) {
             // console.dump("markersArray.length", markersArray.length)
@@ -241,7 +218,29 @@ var MapModel = (function(_super) {
         //     }
     }
 
+    MapModel.prototype.onLocalize = function() {
+        console.log("passe!")
+        mapbox.hasFineLocationPermission().then((res) => { console.dump(res) });
+        // if (geolocation.isEnabled()) {
+        //     geolocation.getCurrentLocation().then((loc) => console.log(loc));
+        // }
+        if (geolocation.isEnabled()) {
+            geolocation.getCurrentLocation().then((loc) => console.dump(loc));
+        }
+    }
 
+    MapModel.prototype.onDelete = function() {
+        if (markersArray.length) {
+            var last = markersArray.pop();
+            // console.dump(last);
+            appSettings.setString("markersArray", JSON.stringify(markersArray));
+            mapbox.removeMarkers([last.id]).then(() => {
+                wentWell("MARKER n°" + last.id + " REMOVED");
+            });
+        } else {
+            errordialog("NO MARKERS !")
+        }
+    }
 
     MapModel.prototype.onSave = function() {
         // console.dump(this.point)
@@ -259,11 +258,16 @@ var MapModel = (function(_super) {
 
             markersArray = transformMarkers();
             // console.dump(typeof markersArray)
+            // this.notify({
+            //     eventName: "Marker",
+            //     array: markersArray[(markersArray.length) - 1]
+            // });
             mapbox.addMarkers(markersArray).then(
 
                 function(result) {
-                    wentWell("CREATION")
-                        // mapbox.setMapStyle(mapbox.MapStyle.DARK);
+                    wentWell("CREATION");
+                    // mapbox.setMapStyle(mapbox.MapStyle.DARK);
+
                 },
                 function(error) {
                     errordialog(error)
@@ -274,13 +278,13 @@ var MapModel = (function(_super) {
 
     MapModel.prototype.doShow = function() {
         this.set("theme", "DARK");
-        this.set("temperature", "Nom de la ville");
+        this.set("temperature", "       Search places!");
         this.set("pressure", "");
-        this.set("humidity", "");
+        this.set("humidity", "   Make Markers!");
         this.set("zoomed", 10);
         this.set("temp_min", "");
-        this.set("temp_max", "");
-        this.set("sunrise", "");
+        this.set("temp_max", "   Travel Markers!");
+        this.set("sunrise", "     See the Weather!");
         this.set("description", "");
         this.set("sunset", "");
         // this.set("city", "Nom de la ville");city = "";
@@ -315,6 +319,15 @@ var MapModel = (function(_super) {
             markers: array
         }).then(
             function(result) {
+                that.on("Marker", function(eventData) {
+                    console.dump(eventData)
+                        // console.log("result", appSettings.setString("markersArray"))
+                        // mapbox.setMapStyle(mapbox.MapStyle.DARK);
+                        // test events observable
+
+                    // mapbox.addMarkers(markers),
+                    //     console.log(transformMarkers())
+                });
                 // listener()
                 mapbox.setOnMapClickListener(function(point) {
                     // console.dump(point)
@@ -401,7 +414,7 @@ var MapModel = (function(_super) {
                 ) // mapbob.setCenter
         } else {
             nav = 0;
-            errordialog("PAS DE MARKERS DEFINI !");
+            errordialog("NO MARKERS !");
         }
     }
 

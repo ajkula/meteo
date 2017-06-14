@@ -33,13 +33,15 @@
             <Label row="5" col="0" text="{{ sunset }}" class="h2 text-center" textWrap="true"/>
             <Label row="5" col="1" text="{{ temp_max }}" class="h2 text-center" textWrap="true"/>
 
-            <GridLayout row="7" colSpan="2" columns="1*, 1*, 1*, 1*, 1*" rows="auto"  >
+            <GridLayout row="7" colSpan="2" columns="1*, 1*, 1*, 1*, 1*, 1*" rows="auto"  >
             <Button row="0" col="0" text="&#xf08d;" tap="{{ onSave }}" class="zoom"/>
-            <Button row="0" col="1" text="&#xf0fb;" tap="{{ onNavigate }}" class="zoom"/>  
-            <Button row="0" col="2" text="&#xf041;" tap="{{ onLocalize }}" class="red"/>  
+            <Button row="0" col="1" text="&#xf0fb;" tap="{{ onNavigate }}" class="zoom"/> 
 
-            <Button row="0" col="3" text="&#xf00e;" tap="{{ onZoom }}" class="blue"/>
-            <Button row="0" col="4" text="&#xf0ac;" tap="{{ onThemeSwitch }}" class="blue"/>
+            <Button row="0" col="2" text="&#xf041;" tap="{{ onLocalize }}" class="red"/>  
+            <Button row="0" col="3" text="&#xf1f8;" tap="{{ onDelete }}" class="red"/>  
+
+            <Button row="0" col="4" text="&#xf00e;" tap="{{ onZoom }}" class="blue"/>
+            <Button row="0" col="5" text="&#xf0ac;" tap="{{ onThemeSwitch }}" class="blue"/>
             </GridLayout>
 
             <!--<ContentView id="mapcontainer" row="7" colSpan="2">

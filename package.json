@@ -11,6 +11,7 @@
   "dependencies": {
     "moment": "^2.18.1",
     "nativescript-feedback": "^1.0.5",
+    "nativescript-geolocation": "^3.0.0",
     "nativescript-mapbox": "^2.6.0",
     "tns-core-modules": "^2.5.1"
   },
