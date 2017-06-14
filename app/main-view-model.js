@@ -14,6 +14,8 @@ var themes = require('./themes').themes;
 // var fileName = application.getCssFileName();
 // console.dump(application);
 var geolocation = require("nativescript-geolocation");
+geolocation.enableLocationRequest(true);
+
 
 var MapModel = (function(_super) {
     __extends(MapModel, _super);
@@ -31,7 +33,6 @@ var MapModel = (function(_super) {
     const bleu = 'dodgerblue';
     const marron = '#734d26';
     var nav = 1;
-
 
     function startTheme() {
         console.log("startTheme!!")
@@ -168,6 +169,8 @@ var MapModel = (function(_super) {
         markersArray = JSON.parse(markersArray);
     }
 
+    var icons = transformMarkers();
+
     function transformMarkers() {
         console.log("transformMarkers!!")
         var newArray = [];
@@ -220,13 +223,22 @@ var MapModel = (function(_super) {
 
     MapModel.prototype.onLocalize = function() {
         console.log("passe!")
-        mapbox.hasFineLocationPermission().then((res) => { console.dump(res) });
-        // if (geolocation.isEnabled()) {
-        //     geolocation.getCurrentLocation().then((loc) => console.log(loc));
-        // }
-        if (geolocation.isEnabled()) {
-            geolocation.getCurrentLocation().then((loc) => console.dump(loc));
-        }
+            // mapbox.hasFineLocationPermission().then((res) => { console.dump(res) });
+            // if (geolocation.isEnabled()) {
+            //     geolocation.getCurrentLocation().then((loc) => console.log(loc));
+            // }
+            // if (geolocation.isEnabled()) {
+            // var location = 
+        geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
+        then(function(loc) {
+            if (loc) {
+                console.log("Current location is: " + loc);
+            }
+        }, function(e) {
+            console.log("Error: " + e.message);
+        });
+        console.log("fin!")
+            // }
     }
 
     MapModel.prototype.onDelete = function() {
@@ -289,8 +301,8 @@ var MapModel = (function(_super) {
         this.set("sunset", "");
         // this.set("city", "Nom de la ville");city = "";
         var that = this;
-        let array = transformMarkers()
-        if (array) { this.set("test", true) } else this.set("test", false)
+        // let array = transformMarkers()
+        if (icons) { this.set("test", true) } else this.set("test", false)
             // console.dump(transformMarkers());
 
         // console.dump(markersArray)
@@ -316,7 +328,7 @@ var MapModel = (function(_super) {
             disableScroll: false, // default false
             disableZoom: false, // default false
             disableTilt: false, // default false
-            markers: array
+            markers: icons
         }).then(
             function(result) {
                 that.on("Marker", function(eventData) {
