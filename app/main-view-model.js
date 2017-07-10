@@ -16,6 +16,23 @@ var themes = require('./themes').themes;
 var geolocation = require("nativescript-geolocation");
 geolocation.enableLocationRequest(true);
 
+Array.prototype.poop = function() {
+    if (this.length) {
+        let result = this[this.length - 1];
+        this.length = this.length - 1;
+        return result;
+    } else return undefined;
+}
+
+Array.prototype.clean = function(deleteValue) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == deleteValue) {
+            this.splice(i, 1);
+            i--;
+        }
+    }
+    return this;
+};
 
 var MapModel = (function(_super) {
     __extends(MapModel, _super);
@@ -28,11 +45,13 @@ var MapModel = (function(_super) {
 
     // Ma clé perso :
     const accessToken = 'pk.eyJ1IjoiYWprdWxhIiwiYSI6ImNqMXMwNmJoaDAwMDUzM24weHZnNzZoZzQifQ.LRk5Zs5fSHf2Ae1Na4zAKg';
-    var newMarker = {};
+    var newMarker = [];
     const vert = '#009900';
     const bleu = 'dodgerblue';
     const marron = '#734d26';
     var nav = 1;
+
+    const iconPath = 'res://icons/'
 
     function startTheme() {
         console.log("startTheme!!")
@@ -96,6 +115,39 @@ var MapModel = (function(_super) {
             default:
                 return 3;
         }
+    }
+
+    function description(string) {
+        var substring1 = "intensity "
+        var substring2 = " with"
+        var substring3 = " with light"
+        var substring4 = " with medium"
+        var substring5 = " with heavy"
+        var substring6 = "thunderstorm light"
+        var substring7 = "thunderstorm medium"
+        var substring8 = "thunderstorm heavy"
+        var thunder = "thunderstorm";
+
+        if (string.indexOf(substring1) !== -1) {
+            return string.split(substring1).join("")
+        } else if (string.indexOf(substring2) !== -1) {
+            return string.split(substring2).join("")
+        } else if (string.indexOf(substring3) !== -1) {
+            return string.split(substring3).join("")
+        } else if (string.indexOf(substring4) !== -1) {
+            return string.split(substring4).join("")
+        } else if (string.indexOf(substring5) !== -1) {
+            return string.split(substring5).join("")
+        } else if (string.indexOf(substring6) !== -1) {
+            return thunder + string.split(substring6)
+                // return string.replace(substring6, thunder);
+                // return string.split(substring6).join("thunderstorm")
+        } else if (string.indexOf(substring7) !== -1) {
+            return thunder + string.split(substring7)
+        } else if (string.indexOf(substring8) !== -1) {
+            return thunder + string.split(substring8)
+        } else return string;
+
     }
 
     function errordialog(error) {
@@ -173,40 +225,46 @@ var MapModel = (function(_super) {
 
     function transformMarkers() {
         console.log("transformMarkers!!")
-        var newArray = [];
-        if (markersArray.length >= 1) {
-            // console.dump("markersArray.length", markersArray.length)
-            // console.dump(markersArray[0])
-            let id = 0;
-            markersArray.forEach(
-                function(elem) {
+            // var newArray = [];
 
+        if (markersArray.length >= 1) {
+            markersArray.clean(null);
+            console.dump(markersArray.length)
+            console.dump(markersArray)
+                // let id = 0;
+            markersArray.forEach(
+                function(elem, index) {
+                    console.dump(elem)
+                    let compteur = index + 1;
                     fetch("http://api.openweathermap.org/data/2.5/weather?lat=" + elem.lat + "&lon=" + elem.lng + "&appid=7431d386218c6bc0943c880b3c81b868")
                         .then(handleErrors)
                         .then(function(response) {
                             return response.json();
                         })
                         .then(function(data) {
-                            //   MapModel.doSetCenter(data);
-                            id = newArray.length + 1
+                            console.log(data.weather[0].icon)
+                                //   MapModel.doSetCenter(data);
+
                             elem = {
-                                    id: id,
-                                    lat: elem.lat,
-                                    lng: elem.lng,
-                                    title: data.name, // no popup unless set
-                                    subtitle: 'Température :' + Math.round(data.main.temp - 273.15) + " °C",
-                                    icon: 'http://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + data.weather[0].icon + '.png',
-                                    onTap: onTap,
-                                    onCalloutTap: onCalloutTap
-                                }
-                                // console.dump(elem)
-                            newArray.push(elem);
+                                id: compteur,
+                                lat: elem.lat,
+                                lng: elem.lng,
+                                title: data.name, // no popup unless set
+                                subtitle: 'Température :' + Math.round(data.main.temp - 273.15) + " °C",
+                                icon: 'http://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + data.weather[0].icon + '.png',
+                                // icon: iconPath + data.weather[0].icon + '.png',
+                                onTap: onTap,
+                                onCalloutTap: onCalloutTap
+                            }
+                            console.dump(elem)
+                            markersArray[compteur - 1] = elem;
+                            // console.dump(elem)
+
                         });
 
                 }); // forEach
 
-            // console.dump(newArray)
-            return newArray;
+            return markersArray;
         }
 
         // newMarker = {
@@ -222,18 +280,22 @@ var MapModel = (function(_super) {
     }
 
     MapModel.prototype.onLocalize = function() {
+        // if (!geolocation.isEnabled()) {
+        //     geolocation.enableLocationRequest();
+        // }
         console.log("passe!")
+        console.log(geolocation.isEnabled())
             // mapbox.hasFineLocationPermission().then((res) => { console.dump(res) });
             // if (geolocation.isEnabled()) {
             //     geolocation.getCurrentLocation().then((loc) => console.log(loc));
             // }
             // if (geolocation.isEnabled()) {
             // var location = 
-        geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
+        var location = geolocation.getCurrentLocation({ desiredAccuracy: 1, updateDistance: 0.1, maximumAge: 5000, timeout: 20000 }).
         then(function(loc) {
-            if (loc) {
-                console.log("Current location is: " + loc);
-            }
+            // if (loc) {
+            console.log("Current location is: " + loc);
+            // }
         }, function(e) {
             console.log("Error: " + e.message);
         });
@@ -243,7 +305,7 @@ var MapModel = (function(_super) {
 
     MapModel.prototype.onDelete = function() {
         if (markersArray.length) {
-            var last = markersArray.pop();
+            var last = markersArray.poop();
             // console.dump(last);
             appSettings.setString("markersArray", JSON.stringify(markersArray));
             mapbox.removeMarkers([last.id]).then(() => {
@@ -264,31 +326,35 @@ var MapModel = (function(_super) {
                 lat: this.point.lat,
                 lng: this.point.lng
             };
-            markersArray.push(newElem)
+            markersArray.push(newElem);
             appSettings.setString("markersArray", JSON.stringify(markersArray));
             // console.dump(markersArray.length)
 
             markersArray = transformMarkers();
             // console.dump(typeof markersArray)
-            // this.notify({
-            //     eventName: "Marker",
-            //     array: markersArray[(markersArray.length) - 1]
-            // });
-            mapbox.addMarkers(markersArray).then(
+            this.notify({
+                eventName: "Marker",
+                object: markersArray[markersArray.length - 1]
+            });
+            setTimeout(function() {
+                mapbox.addMarkers(markersArray).then(
 
-                function(result) {
-                    wentWell("CREATION");
-                    // mapbox.setMapStyle(mapbox.MapStyle.DARK);
+                    function(result) {
+                        wentWell("CREATION");
+                        // mapbox.setMapStyle(mapbox.MapStyle.DARK);
 
-                },
-                function(error) {
-                    errordialog(error)
-                }
-            );
+                    },
+                    function(error) {
+                        errordialog(error)
+                    }
+                );
+            }, 1000);
+
         }
     };
 
     MapModel.prototype.doShow = function() {
+        console.dump(transformMarkers())
         this.set("theme", "DARK");
         this.set("temperature", "       Search places!");
         this.set("pressure", "");
@@ -360,11 +426,17 @@ var MapModel = (function(_super) {
                             that.set("temp_max", "Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C");
                             that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                             that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                            that.set("description", data.weather[0].description);
+                            that.set("description", description(data.weather[0].description));
                             that.set("city", data.name);
                         });
 
                 });
+
+                // mapbox.removeMarkers(() => {
+                //     return icons;
+                // }).then(() => {
+                // mapbox.addMarkers([markersArray[markersArray.length - 1]]);
+                // })
 
                 setTimeout(function() {
                     mapbox.setTilt({
@@ -383,7 +455,7 @@ var MapModel = (function(_super) {
         var that = this;
         nav++;
         // console.dump(markersArray.length)
-        if (markersArray.length >= 1 && this.test) {
+        if (markersArray.length >= 1) {
             if (nav >= markersArray.length) {
                 nav = 0
             }
@@ -419,7 +491,7 @@ var MapModel = (function(_super) {
                         that.set("temp_max", "Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C");
                         that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                         that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                        that.set("description", data.weather[0].description);
+                        that.set("description", description(data.weather[0].description));
                         that.set("city", data.name);
                     })
 
@@ -460,6 +532,8 @@ var MapModel = (function(_super) {
         var text = this.city;
         if (typeof text === "undefined") text = "";
         text.trim().toString();
+        // var regex = new RegExp('/^\n{5},[A-Za-z]{2}$/');
+        // console.log(regex);
         // console.dump(this.city);
         return fetch("http://api.openweathermap.org/data/2.5/weather?q=" + text + "&appid=7431d386218c6bc0943c880b3c81b868")
             .then(handleErrors)
@@ -476,7 +550,7 @@ var MapModel = (function(_super) {
                 that.set("temp_max", ("Maximale: " + Math.round(data.main.temp_max - 273.15) + " °C"));
                 that.set("sunrise", "Jour : " + time(parseInt(data.sys.sunrise)));
                 that.set("sunset", "Soir : " + time(parseInt(data.sys.sunset)));
-                that.set("description", data.weather[0].description);
+                that.set("description", description(data.weather[0].description));
 
                 that.set("point", {
                     lat: data.coord.lat,
