@@ -565,63 +565,63 @@ var MapModel = (function(_super) {
             });
     };
 
-    MapModel.prototype.doHide = function() {
-        mapbox.hide().then(
-            function(result) {
-                console.log("Mapbox hide done");
-            },
-            function(error) {
-                console.log("mapbox hide error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doHide = function() {
+    //     mapbox.hide().then(
+    //         function(result) {
+    //             console.log("Mapbox hide done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox hide error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doDestroy = function() {
-        mapbox.destroy().then(
-            function(result) {
-                console.log("Mapbox destroyed");
-            },
-            function(error) {
-                console.log("mapbox destroy error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doDestroy = function() {
+    //     mapbox.destroy().then(
+    //         function(result) {
+    //             console.log("Mapbox destroyed");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox destroy error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doUnhide = function() {
-        mapbox.unhide().then(
-            function(result) {
-                console.log("Mapbox doUnhide done");
-            },
-            function(error) {
-                console.log("mapbox doUnhide error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doUnhide = function() {
+    //     mapbox.unhide().then(
+    //         function(result) {
+    //             console.log("Mapbox doUnhide done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doUnhide error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doRemoveAllMarkers = function() {
-        mapbox.removeMarkers().then(
-            function(result) {
-                console.log("Mapbox doRemoveAllMarkers done");
-            },
-            function(error) {
-                console.log("mapbox doRemoveAllMarkers error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doRemoveAllMarkers = function() {
+    //     mapbox.removeMarkers().then(
+    //         function(result) {
+    //             console.log("Mapbox doRemoveAllMarkers done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doRemoveAllMarkers error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doRemove2Markers = function() {
-        mapbox.removeMarkers([
-            1,
-            2
-        ]).then(
-            function(result) {
-                console.log("Mapbox doRemove2Markers done");
-            },
-            function(error) {
-                console.log("mapbox doRemove2Markers error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doRemove2Markers = function() {
+    //     mapbox.removeMarkers([
+    //         1,
+    //         2
+    //     ]).then(
+    //         function(result) {
+    //             console.log("Mapbox doRemove2Markers done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doRemove2Markers error: " + error);
+    //         }
+    //     );
+    // };
 
     // MapModel.prototype.doAddMarkers = function() {
 
@@ -671,240 +671,240 @@ var MapModel = (function(_super) {
     };
 
     // Add an option to download the current viewport: https://www.mapbox.com/ios-sdk/examples/offline-pack/ (look for visibleCoordinateBounds)
-    MapModel.prototype.doDownloadAmsterdam = function() {
-        mapbox.downloadOfflineRegion({
-            // required for Android in case no map has been shown yet
-            accessToken: accessToken,
-            name: "Amsterdam",
-            style: mapbox.MapStyle.EMERALD,
-            minZoom: 9,
-            maxZoom: 11,
-            bounds: {
-                north: 52.4820,
-                east: 5.1087,
-                south: 52.2581,
-                west: 4.6816
-            },
-            onProgress: function(progress) {
-                console.log("Download progress: " + JSON.stringify(progress));
-            }
-        }).then(
-            function() {
-                dialogs.alert({
-                    title: "Offline region downloaded",
-                    message: "Done! Zoom levels 9-11 have been downloaded. The download progress was reported via console.log",
-                    okButtonText: "OK"
-                });
-            },
-            function(error) {
-                console.log("mapbox doDownloadAmsterdam error: " + error);
-            }
-        );
+    // MapModel.prototype.doDownloadAmsterdam = function() {
+    //     mapbox.downloadOfflineRegion({
+    //         // required for Android in case no map has been shown yet
+    //         accessToken: accessToken,
+    //         name: "Amsterdam",
+    //         style: mapbox.MapStyle.EMERALD,
+    //         minZoom: 9,
+    //         maxZoom: 11,
+    //         bounds: {
+    //             north: 52.4820,
+    //             east: 5.1087,
+    //             south: 52.2581,
+    //             west: 4.6816
+    //         },
+    //         onProgress: function(progress) {
+    //             console.log("Download progress: " + JSON.stringify(progress));
+    //         }
+    //     }).then(
+    //         function() {
+    //             dialogs.alert({
+    //                 title: "Offline region downloaded",
+    //                 message: "Done! Zoom levels 9-11 have been downloaded. The download progress was reported via console.log",
+    //                 okButtonText: "OK"
+    //             });
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doDownloadAmsterdam error: " + error);
+    //         }
+    //     );
 
-        dialogs.alert({
-            title: "Be patient",
-            message: "This takes a while, progress is logged via console.log",
-            okButtonText: "Understood"
-        });
-    };
+    //     dialogs.alert({
+    //         title: "Be patient",
+    //         message: "This takes a while, progress is logged via console.log",
+    //         okButtonText: "Understood"
+    //     });
+    // };
 
-    MapModel.prototype.doDownloadCurrentViewportAsOfflineRegion = function() {
-        mapbox.getViewport().then(function(viewport) {
-            mapbox.downloadOfflineRegion({
-                name: "LastViewport",
-                style: mapbox.MapStyle.EMERALD,
-                minZoom: viewport.zoomLevel,
-                maxZoom: viewport.zoomLevel + 2,
-                bounds: viewport.bounds,
-                onProgress: function(progress) {
-                    console.log("Download progress: " + JSON.stringify(progress));
-                }
-            }).then(
-                function() {
-                    dialogs.alert({
-                        title: "Viewport downloaded",
-                        message: "Downloaded viewport with bounds " + JSON.stringify(viewport.bounds) + " at zoom levels " + viewport.zoomLevel + " - " + (viewport.zoomLevel + 2),
-                        okButtonText: "OK :)"
-                    });
-                },
-                function(error) {
-                    console.log("mapbox doDownloadCurrentViewportAsOfflineRegion error: " + error);
-                }
-            );
-        }, function(error) {
-            dialogs.alert({
-                title: "Download error",
-                message: error,
-                okButtonText: "Got it"
-            });
-        });
-    };
+    // MapModel.prototype.doDownloadCurrentViewportAsOfflineRegion = function() {
+    //     mapbox.getViewport().then(function(viewport) {
+    //         mapbox.downloadOfflineRegion({
+    //             name: "LastViewport",
+    //             style: mapbox.MapStyle.EMERALD,
+    //             minZoom: viewport.zoomLevel,
+    //             maxZoom: viewport.zoomLevel + 2,
+    //             bounds: viewport.bounds,
+    //             onProgress: function(progress) {
+    //                 console.log("Download progress: " + JSON.stringify(progress));
+    //             }
+    //         }).then(
+    //             function() {
+    //                 dialogs.alert({
+    //                     title: "Viewport downloaded",
+    //                     message: "Downloaded viewport with bounds " + JSON.stringify(viewport.bounds) + " at zoom levels " + viewport.zoomLevel + " - " + (viewport.zoomLevel + 2),
+    //                     okButtonText: "OK :)"
+    //                 });
+    //             },
+    //             function(error) {
+    //                 console.log("mapbox doDownloadCurrentViewportAsOfflineRegion error: " + error);
+    //             }
+    //         );
+    //     }, function(error) {
+    //         dialogs.alert({
+    //             title: "Download error",
+    //             message: error,
+    //             okButtonText: "Got it"
+    //         });
+    //     });
+    // };
 
-    MapModel.prototype.doAddAndClusterGeoJSON = function() {
-        mapbox.addGeoJsonClustered({
-            name: "earthquakes",
-            data: "https://www.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
-            clusterMaxZoom: 15,
-            clusterRadius: 20
-                // clusters: [
-                //   {}
-                // ]
-        }).then(
-            function() {
-                dialogs.alert({
-                    title: "GeoJSON added",
-                    message: "Moving to the USA as that's where the GeoJson data is drawn",
-                    okButtonText: "OK"
-                }).then(function() {
-                    mapbox.setViewport({
-                        bounds: {
-                            north: 52.9,
-                            east: -62.2,
-                            south: 22.1,
-                            west: -128.2
-                        },
-                        zoomLevel: 3
-                    })
-                });
-            },
-            function(error) {
-                console.log("mapbox doAddAndClusterGeoJSON error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doAddAndClusterGeoJSON = function() {
+    //     mapbox.addGeoJsonClustered({
+    //         name: "earthquakes",
+    //         data: "https://www.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
+    //         clusterMaxZoom: 15,
+    //         clusterRadius: 20
+    //             // clusters: [
+    //             //   {}
+    //             // ]
+    //     }).then(
+    //         function() {
+    //             dialogs.alert({
+    //                 title: "GeoJSON added",
+    //                 message: "Moving to the USA as that's where the GeoJson data is drawn",
+    //                 okButtonText: "OK"
+    //             }).then(function() {
+    //                 mapbox.setViewport({
+    //                     bounds: {
+    //                         north: 52.9,
+    //                         east: -62.2,
+    //                         south: 22.1,
+    //                         west: -128.2
+    //                     },
+    //                     zoomLevel: 3
+    //                 })
+    //             });
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doAddAndClusterGeoJSON error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doListOfflineRegions = function() {
-        mapbox.listOfflineRegions().then(
-            function(regions) {
-                dialogs.alert({
-                    title: "Offline regions",
-                    message: JSON.stringify(regions),
-                    okButtonText: "Thanks"
-                });
-            },
-            function(error) {
-                dialogs.alert({
-                    title: "Offline regions list error",
-                    message: error,
-                    okButtonText: "Hmm"
-                });
-            }
-        );
-    };
+    // MapModel.prototype.doListOfflineRegions = function() {
+    //     mapbox.listOfflineRegions().then(
+    //         function(regions) {
+    //             dialogs.alert({
+    //                 title: "Offline regions",
+    //                 message: JSON.stringify(regions),
+    //                 okButtonText: "Thanks"
+    //             });
+    //         },
+    //         function(error) {
+    //             dialogs.alert({
+    //                 title: "Offline regions list error",
+    //                 message: error,
+    //                 okButtonText: "Hmm"
+    //             });
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doDeleteOfflineRegion = function() {
-        mapbox.deleteOfflineRegion({
-            name: "Amsterdam"
-        }).then(
-            function() {
-                dialogs.alert({
-                    title: "Offline region deleted",
-                    okButtonText: "Cool"
-                });
-            },
-            function(error) {
-                dialogs.alert({
-                    title: "Error deleting offline region",
-                    message: error,
-                    okButtonText: "Hmmz"
-                });
-            }
-        );
-    };
+    // MapModel.prototype.doDeleteOfflineRegion = function() {
+    //     mapbox.deleteOfflineRegion({
+    //         name: "Amsterdam"
+    //     }).then(
+    //         function() {
+    //             dialogs.alert({
+    //                 title: "Offline region deleted",
+    //                 okButtonText: "Cool"
+    //             });
+    //         },
+    //         function(error) {
+    //             dialogs.alert({
+    //                 title: "Error deleting offline region",
+    //                 message: error,
+    //                 okButtonText: "Hmmz"
+    //             });
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doSetTilt = function() {
-        mapbox.setTilt({
-            tilt: 35,
-            duration: 4000
-        }).then(
-            function(result) {
-                console.log("Mapbox doSetTilt done");
-            },
-            function(error) {
-                console.log("mapbox doSetTilt error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doSetTilt = function() {
+    //     mapbox.setTilt({
+    //         tilt: 35,
+    //         duration: 4000
+    //     }).then(
+    //         function(result) {
+    //             console.log("Mapbox doSetTilt done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doSetTilt error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doAnimateCamera = function() {
-        mapbox.animateCamera({
-            target: {
-                lat: 52.3732160,
-                lng: 4.8941680,
-            },
-            zoomLevel: 17, // Android
-            altitude: 500, // iOS
-            bearing: 270,
-            tilt: 50,
-            duration: 10000
-        }).then(
-            function(result) {
-                console.log("Mapbox doAnimateCamera done");
-            },
-            function(error) {
-                console.log("mapbox doAnimateCamera error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doAnimateCamera = function() {
+    //     mapbox.animateCamera({
+    //         target: {
+    //             lat: 52.3732160,
+    //             lng: 4.8941680,
+    //         },
+    //         zoomLevel: 17, // Android
+    //         altitude: 500, // iOS
+    //         bearing: 270,
+    //         tilt: 50,
+    //         duration: 10000
+    //     }).then(
+    //         function(result) {
+    //             console.log("Mapbox doAnimateCamera done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox doAnimateCamera error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doSetCenter = function() {
-        mapbox.setCenter({
-            lat: 52.3602160,
-            lng: 4.8891680,
-            animated: true
-        }).then(
-            function(result) {
-                console.log("Mapbox setCenter done");
-            },
-            function(error) {
-                console.log("mapbox setCenter error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doSetCenter = function() {
+    //     mapbox.setCenter({
+    //         lat: 52.3602160,
+    //         lng: 4.8891680,
+    //         animated: true
+    //     }).then(
+    //         function(result) {
+    //             console.log("Mapbox setCenter done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox setCenter error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doGetCenter = function() {
-        mapbox.getCenter().then(
-            function(result) {
-                dialogs.alert({
-                    title: "Center",
-                    message: JSON.stringify(result),
-                    okButtonText: "OK"
-                });
-            },
-            function(error) {
-                console.log("mapbox getCenter error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doGetCenter = function() {
+    //     mapbox.getCenter().then(
+    //         function(result) {
+    //             dialogs.alert({
+    //                 title: "Center",
+    //                 message: JSON.stringify(result),
+    //                 okButtonText: "OK"
+    //             });
+    //         },
+    //         function(error) {
+    //             console.log("mapbox getCenter error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doGetZoomLevel = function() {
-        mapbox.getZoomLevel().then(
-            function(result) {
-                dialogs.alert({
-                    title: "Zoom Level",
-                    message: JSON.stringify(result),
-                    okButtonText: "OK"
-                });
-            },
-            function(error) {
-                console.log("mapbox getCenter error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doGetZoomLevel = function() {
+    //     mapbox.getZoomLevel().then(
+    //         function(result) {
+    //             dialogs.alert({
+    //                 title: "Zoom Level",
+    //                 message: JSON.stringify(result),
+    //                 okButtonText: "OK"
+    //             });
+    //         },
+    //         function(error) {
+    //             console.log("mapbox getCenter error: " + error);
+    //         }
+    //     );
+    // };
 
-    MapModel.prototype.doSetZoomLevel = function() {
-        mapbox.setZoomLevel({
-            level: 2, // shows most of the world
-            animated: true
-        }).then(
-            function(result) {
-                console.log("Mapbox setZoomLevel done");
-            },
-            function(error) {
-                console.log("mapbox setZoomLevel error: " + error);
-            }
-        );
-    };
+    // MapModel.prototype.doSetZoomLevel = function() {
+    //     mapbox.setZoomLevel({
+    //         level: 2, // shows most of the world
+    //         animated: true
+    //     }).then(
+    //         function(result) {
+    //             console.log("Mapbox setZoomLevel done");
+    //         },
+    //         function(error) {
+    //             console.log("mapbox setZoomLevel error: " + error);
+    //         }
+    //     );
+    // };
 
     MapModel.prototype.doAddPolygon = function() {
         mapbox.addPolygon({
